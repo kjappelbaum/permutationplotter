@@ -6,6 +6,8 @@ This tiny app was inspired by a [blog post by Andrew Gelman](https://statmodelin
 
 The app takes a `csv` or an example dataset and let's the user decide which columns to plot against each other and then creates some subplots with permuted response.
 
+Deployed on [Heroku](https://go.epfl.ch/permutationplotter).
+
 ## Todo: 
 - Fit also some regression line 
 - Let the use decide about the number of subplots (?)
