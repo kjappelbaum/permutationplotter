@@ -279,6 +279,8 @@ def parse_contents(contents, filename):
         app.logger.error(e)
         return html.Div(["There was an error processing this file."])
 
+    df = df.select_dtypes(include=numerics)
+     
     return df.to_json()
 
 
