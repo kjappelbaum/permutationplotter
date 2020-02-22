@@ -17,6 +17,7 @@ VERSION = 0.1
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX, "assets/dropdown.css"])
+server = app.server
 
 app.layout = dbc.Container(
     [
