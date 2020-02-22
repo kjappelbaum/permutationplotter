@@ -1,5 +1,5 @@
 
-from permutationplotter import app
+from permutationplotter import app, server
 
 if __name__ == '__main__':
   app.run_server(debug=True)
