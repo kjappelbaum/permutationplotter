@@ -11,6 +11,7 @@ import dash_bootstrap_components as dbc
 import dash_table
 from .permutation import generate_random, plot_permuted, MEAN_X, MEAN_Y, STD_X, STD_Y, N
 import pandas as pd
+numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
 
 VERSION = 0.1
 
