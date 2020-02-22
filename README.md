@@ -1,4 +1,4 @@
-# Permutation plotter
+# Permutation plotter 
 
 ![Screenshot](_static/screenshot.png)
 
@@ -6,7 +6,7 @@ This tiny app was inspired by a [blog post by Andrew Gelman](https://statmodelin
 
 The app takes a `csv` or an example dataset and let's the user decide which columns to plot against each other and then creates some subplots with permuted response.
 
-Deployed on [Heroku](https://go.epfl.ch/permutationplotter).
+Deployed on [Heroku](https://go.epfl.ch/permutationplotter), archived on Zenodo: [![DOI](https://zenodo.org/badge/242074416.svg)](https://zenodo.org/badge/latestdoi/242074416).
 
 ## Todo: 
 - Fit also some regression line 
