@@ -8,3 +8,6 @@ The app takes a `csv` or an example dataset and let's the user decide which colu
 - Fit also some regression line 
 - Let the use decide about the number of subplots (?)
 - Automatically explore all columns (?)
+- Add labels for sliders
+- Drop all non-numeric columns
+- Feedback for selected column (maybe show df below upload field and highlight column)
