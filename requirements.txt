@@ -5,3 +5,4 @@ dash-html-components
 pandas
 plotly
 scikit-learn
+gunicorn
