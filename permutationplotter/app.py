@@ -9,7 +9,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 import dash_table
-from .permutation import generate_random, MEAN_X, MEAN_Y, STD_X, STD_Y, N
+from .permutation import generate_random, plot_permuted, MEAN_X, MEAN_Y, STD_X, STD_Y, N
 import pandas as pd
 
 VERSION = 0.1
@@ -22,6 +22,22 @@ app.layout = dbc.Container(
         html.H1("Is there (still) a pattern?", className="display-3"),
         html.Hr(),
         html.P(""),
+        html.P(
+            [
+                "Finding or observing patterns, can be fragile and we always have to keep in mind that we deal with random variables. ",
+                "When, after random permutation, you still see a pattern in your data should check your conclusions...",
+            ]
+        ),
+        html.P(
+            [
+                "This app was inspired by a ",
+                html.A(
+                    "blog post by Andrew Gelman",
+                    href="https://statmodeling.stat.columbia.edu/2020/02/20/an-article-in-a-statistics-or-medical-journal-using-simulations-to-convince-people-of-the-importance-of-random-variation-when-interpreting-statistics/",
+                ),
+                ".",
+            ]
+        ),
         html.Div(id="output-data-upload", style={"display": "none"}),
         html.Div(
             [
@@ -39,8 +55,7 @@ app.layout = dbc.Container(
                                 dbc.Row(
                                     [
                                         dbc.Col(
-                                            dbc.Card(
-                                                dbc.Col(
+                                            
                                                     [
                                                         html.H3(
                                                             "Select the columns",
@@ -51,24 +66,17 @@ app.layout = dbc.Container(
                                                             target="columnselecthead",
                                                         ),
                                                         dcc.Dropdown(
-                                                            options=[],
-                                                            className="m-1",
-                                                            id="xdropdown"
+                                                            options=[], id="xdropdown", 
                                                         ),
                                                         dcc.Dropdown(
-                                                            options=[],
-                                                            className="m-1",
-                                                            id="ydropdown"
+                                                            options=[], id="ydropdown", 
                                                         ),
                                                         dcc.Dropdown(
-                                                            options=[],
-                                                            className="m-1",
-                                                            id="zdropdown"
+                                                            options=[], id="zdropdown", 
                                                         ),
-                                                    ]
-                                                )
-                                            ),
-                                            md=3,
+                                                    ],
+                                            md=4,
+                                            style={"overflow": "auto",},
                                         ),
                                         dbc.Col(
                                             [
@@ -111,11 +119,12 @@ app.layout = dbc.Container(
                                             ]
                                         ),
                                     ],
+                                    style={"display": "flex"},
                                 )
                             ),
-                            id="collapse-0",
+                            id="collapse-0", 
                         ),
-                    ]
+                    ], 
                 ),
                 dbc.Card(
                     [
@@ -132,6 +141,9 @@ app.layout = dbc.Container(
                                     [
                                         html.P(
                                             "Use the sliders below to change the properties of the normal distributions from which we draw to generate three plots of random points."
+                                        ),
+                                        html.P(
+                                            "In addition to the points we also show the best linear fit."
                                         ),
                                         dbc.Row(
                                             [
@@ -218,33 +230,19 @@ app.layout = dbc.Container(
                             ),
                             id="collapse-1",
                         ),
-                    ]
+                    ],
                 ),
             ],
             className="accordion",
         ),
-        html.P(),
-        html.H3("Can you distinguish the real data from the permuted data?"),
-        html.Div([dcc.Graph(figure=generate_random())], id="plot"),
-        dbc.Container(
+        html.Div(
             [
                 html.P(),
-                html.P(
-                    [
-                        "Finding or observing patterns, can be fragile and we always have to keep in mind that we deal with random variables."
-                    ]
-                ),
-                html.P(
-                    [
-                        "This app was inspired by a ",
-                        html.A(
-                            "blog post by Andrew Gelman",
-                            href="https://statmodeling.stat.columbia.edu/2020/02/20/an-article-in-a-statistics-or-medical-journal-using-simulations-to-convince-people-of-the-importance-of-random-variation-when-interpreting-statistics/",
-                        ),
-                        ".",
-                    ]
-                ),
-            ]
+                html.H3("Can you distinguish the real data from the permuted data?"),
+                html.Div([dcc.Graph(figure=generate_random())], id="plot"),
+                dbc.Container([html.P()]),
+            ],
+            style={"zIndex": -10},
         ),
         html.Hr(),
         html.Footer(
@@ -302,7 +300,7 @@ def update_dropdowns(jsonified_cleaned_data):
         app.logger.info(jsonified_cleaned_data)
         df = pd.read_json(jsonified_cleaned_data[0])
         columns = list(df.columns)
-        items = [{'label': column, 'value': column} for column in columns]
+        items = [{"label": column, "value": column} for column in columns]
 
         return items
     else:
@@ -317,7 +315,7 @@ def update_dropdowns(jsonified_cleaned_data):
         app.logger.info(jsonified_cleaned_data)
         df = pd.read_json(jsonified_cleaned_data[0])
         columns = list(df.columns)
-        items = [{'label': column, 'value': column} for column in columns]
+        items = [{"label": column, "value": column} for column in columns]
 
         return items
     else:
@@ -332,7 +330,7 @@ def update_dropdowns(jsonified_cleaned_data):
         app.logger.info(jsonified_cleaned_data)
         df = pd.read_json(jsonified_cleaned_data[0])
         columns = list(df.columns)
-        items = [{'label': column, 'value': column} for column in columns]
+        items = [{"label": column, "value": column} for column in columns]
 
         return items
     else:
@@ -358,8 +356,16 @@ def update_plot(n, meanx, meany, stdx, stdy, jsonified_cleaned_data, xcol, ycol,
     triggered_by = ctx.triggered[0]["prop_id"].split(".")[0]
     app.logger.info("Plot updated triggered by {}".format(triggered_by))
 
-    if triggered_by in ["meanx", "meany", "stdx", "stdy"]:
+    if triggered_by in ["meanx", "meany", "stdx", "stdy", "npts"]:
+        print("plotting")
         return dcc.Graph(figure=generate_random(n, meanx, stdx, meany, stdy))
+    elif triggered_by in ["xdropdown", "ydropdown", "zdropdown"]:
+        if jsonified_cleaned_data is not None:
+            app.logger.info("found df")
+            df = pd.read_json(jsonified_cleaned_data[0])
+            if not None in [xcol, ycol, zcol]:
+                app.logger.info("plotting data")
+                return dcc.Graph(figure=plot_permuted(df, xcol, ycol, zcol))
 
 
 @app.callback(
