@@ -67,23 +67,23 @@ app.layout = dbc.Container(
                                                             target="columnselecthead",
                                                         ),
                                                         dcc.Dropdown(
-                                                            options=[], id="xdropdown", 
+                                                            options=[], id="xdropdown", placeholder='select x data'
                                                         ),
                                                         dcc.Dropdown(
-                                                            options=[], id="ydropdown", 
+                                                            options=[], id="ydropdown", placeholder='select y data'
                                                         ),
                                                         dcc.Dropdown(
-                                                            options=[], id="zdropdown", 
+                                                            options=[], id="zdropdown", placeholder='select color data'
                                                         ),
                                                     ],
-                                            md=4,
+                                            md=5,
                                             style={"overflow": "auto",},
                                         ),
                                         dbc.Col(
                                             [
                                                 dbc.Container(
                                                     [
-                                                        html.H2(
+                                                        html.H3(
                                                             "Upload your tabular data",
                                                             className="display-5",
                                                             id="datauploadheader",
